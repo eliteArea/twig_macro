@@ -1,0 +1,193 @@
+{#====================================================================
+| Version: 1.0-Dev
+| Main value => name , type
+| Settings value => labelBefore , labelAfter , size , class , placeholder , description
+====================================================================#}
+
+
+{#====================================================================
+| Macro for input field   
+====================================================================#}
+
+{% macro input( name , type , settings ) %}
+
+  {% set size = settings.size|default(30) %}    {# size -> field size #}
+  {% set class = settings.class %}              {# class -> field wrapper class ( form-item ) #}
+  {% set placeholder = settings.placeholder %}  {# placeholder -> placeholder for field #}
+  {% set description = settings.description %}  {# description -> description field #}
+  {% set id = settings.fieldid %}               {# fieldid -> id fields #}
+  {% set value = settings.value|e %}            {# value -> field value #}
+  
+  {% set labelBe = settings.labelBefore %} {# labelBefore -> label #}
+  {% set labelBeClass = settings.labelBeforeClass %}
+
+  {% set labelAf = settings.labelAfter %} {# labelAfter -> label #}
+  {% set labelAfClass = settings.labelAfterClass %}
+
+  <div class="form-item {{ class }}">
+    
+   {% if labelBe %}
+    <label class="label label-before {{ labelBeClass }}" {% if id %} for="{{ id }}" {% endif %} >
+      {{ labelBe }}
+    </label>
+   {% endif %}
+
+    <label class="input-wrap">
+      <input {% if id %} id="{{ id }}" {% endif %} type="{{ type|default('text') }}" name="{{ name }}" {% if value %} value="{{ value }}" {% endif %} size="{{ size }}" {% if placeholder %} placeholder="{{ placeholder }}" {% endif %} />
+    </label>
+  
+   {% if labelAf %}
+    <label class="label label-after {{ labelAfClass }}" {% if id %} for="{{ id }}" {% endif %} >
+      {{ labelAf }}
+    </label>
+   {% endif %}
+
+   {% if description %}
+    <div class='description'>
+      {{ description|raw }}
+    </div>
+   {% endif %}
+
+  </div> <!-- form-item -->
+
+{% endmacro %}
+
+
+{# ===================================================================
+| Macro for submit button
+====================================================================#}
+{% macro submit( name , type , value , class ) %}
+  <div class="action {{ class }}">
+    <input type="{{ type|default('submit') }}" name="{{ name }}" value="{{ value|e }}" />
+  </div>
+{% endmacro %}
+
+
+{# ===================================================================
+|  Macro for select field
+====================================================================#}
+{% macro select( name , settings ) %}
+  
+{#
+| labelBefore , labelAfter , size , class , placeholder , description
+#}
+
+  {% set size = settings.size %}    {# size -> field size #}
+  {% set class = settings.class %}              {# class -> field wrapper class ( form-item ) #}
+  {% set description = settings.description %}  {# description -> description field #}
+  {% set id = settings.fieldid %}               {# fieldid -> id fields #}
+  {% set value = settings.value %}            {# value -> field value #}
+  
+  {% set labelBe = settings.labelBefore %} {# labelBefore -> label #}
+  {% set labelBeClass = settings.labelBeforeClass %}
+
+  {% set labelAf = settings.labelAfter %} {# labelAfter -> label #}
+  {% set labelAfClass = settings.labelAfterClass %}
+
+
+  <div class="form-item {{ settings.class }}">
+    
+    {% if labelBe %}
+    <label class="label label-before {{ labelBeClass }}" >
+      {{ labelBe }}
+    </label>
+    {% endif %}
+
+    <label class="select-wrapp">
+      <select name="{{ name }}" {%if id %} id="{{ id }}" {% endif %} {% if size %} size="{{ size }}" {% endif %} >
+      {% for key,value in settings.values %}
+        <option value='{{ key }}' > {{ value }} </option>
+      {% endfor %}
+      </select>
+    </label>
+
+    {% if labelAf %}
+    <label class="label label-after {{ labelAfClass }}" >
+      {{ labelAf }}
+    </label>
+    {% endif %}
+    
+    {% if description %}
+    <div class="description">
+      {{ description|raw }}
+    </div>
+    {% endif %}
+
+  </div> <!-- form-item -->
+{% endmacro %}
+
+
+{# ===================================================================
+|  Macro for radio and select field
+====================================================================#}
+
+{% macro checkfield( name , type , settings ) %}
+
+  {% set id = settings.fieldId %}
+  {% set class = settings.class %}
+  {% set checked = settings.checked %}
+  {% set fieldclass = settings.fieldclass %}
+  {% set value = settings.value %}
+
+  {% set labelBe = settings.labelBefore %}
+  {% set labelAf = settings.labelAfter %}
+
+  {% if not labelBe and not labelAf  %}
+    {% set labelBe = value %}
+  {% endif %}
+
+  <div class="form-{{type}} {{class}} ">
+    <label {% if id %} for='{{ id }}' {% endif %} > 
+      {% if labelBe %}<span class="label label-before">{{ labelBe }}</span> {% endif %}
+      <input {% if fieldclass %} class='{{fieldclass}}' {% endif %} {% if id %} id='{{ id }}' {% endif %} type="{{type|default('radio')}}" name="{{ name }}" {% if value %} value="{{ value }}" {%endif %} {% if checked == true %} checked {% endif %} />     
+      {% if labelAf %} <span class="label label-after">{{ labelAf }}</span> {% endif %}
+    </label>
+  </div> <!-- form-type -->
+
+{% endmacro %}
+
+
+
+{# ===================================================================
+|  Macro for radio and select field
+====================================================================#}
+
+{% macro checkfieldGroup( name , type , settings ) %}
+
+  {% set id = settings.fieldId %}
+  {% set class = settings.class %}
+  {% set values = settings.value %}
+  {% set groupLabel = settings.groupLabel %}
+
+  {% set labelD = settings.labelPosition|default("before") %}
+  
+  <div class="form-{{type}} form-{{type}}-group {{class}} ">
+    {% if groupLabel %}
+     <label class="group-label">{{groupLabel}}</label>
+    {% endif %}
+
+    {% for key,value in settings.values %}
+      
+      {% set label = value.labelPosition|default(labelD) %}
+      {% if id %}
+        {% set id = id + value.text %}
+      {% endif %}
+
+      <label {% if value.class %} class='{{value.class}}' {% endif %} >
+        
+        {% if label == "before" %}<span class="label label-before">{{ value.text }}</span> {% endif %}
+
+        <input {% if id %} id='{{ id }}' {% endif %} type="{{type|default('radio')}}" name="{{ name }}" value="{{ key }}" {% if value.checked == true %} checked="true" {% endif %} />  
+
+        {% if label == "after" %} <span class="label label-after">{{ value.text }}</span> {% endif %}
+
+      </label>
+    {% endfor %}
+    
+    {% if settings.description %}
+      {{settings.description|raw}}
+    {% endif %}
+
+  </div> <!-- form-type -->
+
+{% endmacro %}

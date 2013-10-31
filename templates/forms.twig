@@ -1,0 +1,131 @@
+
+	
+	<h1> Macro form </h1>
+
+	{% import "macro.twig" as forms %}
+
+
+	<form action="" method="get">
+		
+		<fieldset>
+			<legend> text field's </legend>
+			{%
+	    	set param = {
+	      	labelBefore: 'Type name: ',
+	      	labelBeforeClass: 'label_before_class',
+	      	labelAfter: 'Label after field',
+	      	labelAfterClass: 'label_affter_class',
+	      	size: 30,
+	      	class: 'block-inner',
+	      	placeholder: 'type name',
+	      	description: "<p>this is desription</p><p>loram ipsum</p>"
+	    	}
+  		%}
+		  {{ forms.input('name' , 'text' , param ) }}
+		</fieldset>
+
+		<fieldset>
+			<legend> text field's </legend>
+			{%
+	    	set param = {
+	      	labelBefore: 'type user name: ',
+	      	labelBeforeClass: 'label_before',
+	      	labelAfter: 'Label after field',
+	      	labelAfterClass: 'label_after_class',
+	      	size: 30,
+	      	placeholder: 'type user name',
+	      	description: "<p>this is description</p><p>second</p>"
+	    	}
+  		%}
+		  {{ forms.input('username' , 'text' , param ) }}
+		</fieldset>
+		
+		<fieldset>
+			<legend>Select field</legend>
+			{%
+				set setParam = {
+					values : {
+        		'first':'bannanas',
+		        2:'orange',
+		        3:'juice',
+		        4: 'apple'
+		      },
+		      labelBefore: 'Label before: ',
+		      labelBeforeClass: 'class_label_before',
+		      labelAfter: 'Label after: ',
+		      labelAfterClass: 'custom_label_after',
+		      description: '<p>this is desciption</p>',
+		      class: 'block-inner'
+				}
+			%}
+			{{ forms.select( 'country' , setParam ) }}
+		</fieldset>
+		
+		
+		<h2> inline element </h2>
+		<div class="inline-wrapper">
+		{%
+			set setParam = {
+				labelBefore: 'city: ',
+	     	size: 30,
+	     	class: 'inline',
+	     	placeholder: 'Enter city',
+	     	description: "<p>type city name</p>"
+			}
+		%}
+		{{ forms.input('city' , 'text' , setParam ) }}
+		
+		{%
+			set setParam = {
+				labelBefore: 'state: ',
+	     	size: 30,
+	     	class: 'inline',
+	     	placeholder: 'Enter state',
+	     	
+			}
+		%}
+		{{ forms.input('state' , 'text' , setParam) }}
+		
+		{{ forms.input( 'state2' , 'text' , setParam) }}
+		
+		</div> <!-- inline-wrapper -->
+		
+		
+		{%
+			set setParam = {
+				value: 'orange',
+				labelAfter: 'orange juice'
+			}
+		%}
+		{{ forms.checkfield( 'fruite' , 'radio' , setParam ) }}
+
+
+		{%
+			set setParam = {
+				groupLabel: 'Grup fild label: ',
+				labelPosition: "after",
+				values : {
+        	'myname': {
+        		text: 'albert',
+        		class: 'albert-custom-class',
+        		labelPosition: "before"
+        	},
+		    	2: {
+		    		text: 'monkey',
+		    		checked: true
+		    	},
+		    	3: { text: 'dog' },
+	      	4: { text: 'cat' }
+		    },
+		    description: "<p>this is description</p>"
+
+			}
+
+		%}
+
+		{{ forms.checkfieldGroup('animals' , 'radio' , setParam) }}
+
+
+		{{ forms.submit( 'send' , 'submit' , 'send form' ) }}
+
+	</form>
