@@ -1,4 +1,4 @@
-#  Macro helper for TWIG form - Beta #
+#  Macro helper for TWIG form - Dev #
 
 <nav>
 [create input field](#inputField)
@@ -209,4 +209,8 @@ in html we see this like
 
 ## App version and update ##
 
-Version: 1.0 - Beta
+Version: 1.0 - Beta  
+
+* Created project
+
+~~end~~
