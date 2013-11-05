@@ -2,9 +2,13 @@
 
 <nav>
 [create input field](#inputField)
+|
 [create submit button](#submitField)
+|
 [create select dropdown](#select)
+|
 [create checkfield group](#checkfield)
+|
 [create checkfield single](#checkfieldsingle)
 </nav>
 
