@@ -210,3 +210,8 @@ in html we see this like
 ## App version and update ##
 
 Version: 1.0 - Beta  
+
+
+## feature ##
+
+1. Add template system for each type of field you need to change ( more easy and scalar )
